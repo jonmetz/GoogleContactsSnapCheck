@@ -74,8 +74,8 @@ class GoogleContacts(object):
           no_leading_1s.append(number[1:])
         else:
           no_leading_1s.append(number)
-          cleaned_nums = [number[:8] + ["X", "X"] for number in no_leading_1s]        
-          yield contact[0], ["".join(number) for number in cleaned_nums]      
+      cleaned_nums = [number[:8] + ["X", "X"] for number in no_leading_1s]        
+      yield contact[0], ["".join(number) for number in cleaned_nums]      
 
   def ListAllContacts(self):
     """Retrieves a list of contacts and displays name and primary email."""
