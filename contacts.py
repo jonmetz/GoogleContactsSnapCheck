@@ -65,16 +65,39 @@ class GoogleContacts(object):
     return ["".join(number) for number in numbers]
   
   def CleanPhoneNumbers(self, contacts):
+    # for contact in contacts:
+    #   # no_whitespace_nums = [number.split(' ') for number in contact[1]]
+    #   # no_hyphen_nums = [number.split('-') for number in JoinNums(no_whitespace_nums)]
+    #   # no_right_parens = [number.split(')') for number in JoinNums(no_hyphen_nums)]
+    #   # yield JoinNums([number.split(')') for number in JoinNums(no_hyphen_nums)]
+    #   for contact in contacts:
+    #     numbers = [list(number) for number in contact[1]]
+    #     # no_leading_1s = [number[1:] if number[0] == "1" else number for number in numbers]
+    #     if "Alexandra" in contact[0]: print no_leading_1s
+    #     digits_only = [[char for char in number if char.isdigit()] for number in numbers]
+    #     no_leading_1s = []
+    #     for number in digits_only:
+    #       if number and number[0] == "1":
+    #         print contact[0] + " + "+ str(number[1:]) + ' ' + str(number)
+    #         no_leading_1s.append(number[1:])
+    #       else:
+    #         no_leading_1s.append(number)
+    #     cleaned_nums = [number[:8] + ["X", "X"] for number in no_leading_1s]        
+    #     yield contact[0], ["".join(number) for number in cleaned_nums]
     for contact in contacts:
-      # no_whitespace_nums = [number.split(' ') for number in contact[1]]
-      # no_hyphen_nums = [number.split('-') for number in JoinNums(no_whitespace_nums)]
-      # no_right_parens = [number.split(')') for number in JoinNums(no_hyphen_nums)]
-      # yield JoinNums([number.split(')') for number in JoinNums(no_hyphen_nums)]
-      for contact in contacts:
-        numbers = [list(number) for number in contact[1]]
-        cleaned_nums = [[char for char in number if char.isdigit()][:8] + ["X", "X"] for number in numbers]
-        yield contact[0], ["".join(number) for number in cleaned_nums]
-      
+      numbers = [list(number) for number in contact[1]]
+      # no_leading_1s = [number[1:] if number[0] == "1" else number for number in numbers]
+      if "Alexandra" in contact[0]: print no_leading_1s
+      digits_only = [[char for char in number if char.isdigit()] for number in numbers]
+      no_leading_1s = []
+      for number in digits_only:
+        if number and number[0] == "1":
+          print contact[0] + " + "+ str(number[1:]) + ' ' + str(number)
+          no_leading_1s.append(number[1:])
+        else:
+          no_leading_1s.append(number)
+          cleaned_nums = [number[:8] + ["X", "X"] for number in no_leading_1s]        
+          yield contact[0], ["".join(number) for number in cleaned_nums]      
 
   def ListAllContacts(self):
     """Retrieves a list of contacts and displays name and primary email."""
@@ -131,6 +154,9 @@ def search_db(contacts):
   cursor = db.cursor()
   for contact in contacts:
     name = contact[0]
+    if "Alexandra" in name:
+      print "ALEXANDRA FOUND"
+      print contact[1]
     if name in compromised:
       continue
     for number in contact[1]:
