@@ -1,4 +1,5 @@
 contacts.html
 *~
 \#*\#
-client_secret_
+client_secret_*
+*.pyc
