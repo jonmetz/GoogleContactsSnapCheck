@@ -123,7 +123,7 @@ def get_contacts():
   return contacts_list
 
 def search_db(contacts):
-  comprimised = []
+  compromised = []
   db = MySQLdb.connect(host="localhost", # your host, usually localhost
                        user="snap", # your username
                        passwd="", # your password
@@ -131,7 +131,7 @@ def search_db(contacts):
   cursor = db.cursor()
   for contact in contacts:
     name = contact[0]
-    if name in comprimised:
+    if name in compromised:
       continue
     for number in contact[1]:
 
@@ -140,14 +140,14 @@ def search_db(contacts):
       matches = db.store_result()
       match = matches.fetch_row()
       if match:
-        comprimised.append(name.strip(' '))
+        compromised.append(name.strip(' '))
         print "----------------"
       while match:
         print "Match Found for %s: Phone Number: %s username: %s" % (name, number, match[0][1])
         match = matches.fetch_row()
-  print "The following contacts may have been comprimised by the leak:" 
-  for name in comprimised: print name
-  print "Total: %s" % len(comprimised)
+  print "The following contacts may have been compromised by the leak:" 
+  for name in compromised: print name
+  print "Total: %s" % len(compromised)
 
 def main():
   contacts = get_contacts()
