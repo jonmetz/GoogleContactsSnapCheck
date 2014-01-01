@@ -3,4 +3,4 @@ contacts.html
 \#*\#
 client_secret*
 *.pyc
-schat.sql
+*.sql*
