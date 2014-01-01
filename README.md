@@ -8,6 +8,10 @@ Since the last two digits of each phone number in the leak have been obfuscated 
 in the leak, because of this, when a match is detected the program will output the full name of your Contact as well as the username of the possible match, usually it
 is fairly easy to determine if a match is in fact correct.
 
+Configuration
+==============
+Aside from entering your google username and password, the only this needs configuration is for the mysql connection, on line 123 of contacts.py you should replace the
+arguments to ```MySQLdb.connect``` with the appropriate values
 
 Dependancies
 ==============
@@ -18,6 +22,6 @@ libmysqlclient-dev
 
 python-pip
 
-Once these packages are installed, run ```pip install -r requirements.txt``` to install the rest (note that this may require sudo)
+Once these packages are installed, run ```pip install -r requirements.txt``` to install the rest of the dependancies (note that this may require sudo).
 
 

@@ -112,14 +112,11 @@ def get_contacts():
     pw = getpass.getpass()
     if not pw:
       print 'Password cannot be blank.'
-
-
   try:
     contacts = GoogleContacts(user, pw)
   except gdata.client.BadAuthentication:
     print 'Invalid user credentials given.'
     exit(1)
-
   contacts_list = contacts.Run()
   return contacts_list
 
