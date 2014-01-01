@@ -20,7 +20,7 @@ import getpass
 import atom
 import gdata.contacts.data
 import gdata.contacts.client
-
+import MySQLdb
 
 class GoogleContacts(object):
   """ContactsSample object demonstrates operations with the Contacts feed."""
@@ -61,17 +61,32 @@ class GoogleContacts(object):
         feed = self.gd_client.GetContacts(uri=next.href)
         feed = self.gd_client.GetContacts(uri=next.href)
 
+  def JoinNums(self, numbers):
+    return ["".join(number) for number in numbers]
+  
+  def CleanPhoneNumbers(self, contacts):
+    for contact in contacts:
+      # no_whitespace_nums = [number.split(' ') for number in contact[1]]
+      # no_hyphen_nums = [number.split('-') for number in JoinNums(no_whitespace_nums)]
+      # no_right_parens = [number.split(')') for number in JoinNums(no_hyphen_nums)]
+      # yield JoinNums([number.split(')') for number in JoinNums(no_hyphen_nums)]
+      for contact in contacts:
+        numbers = [list(number) for number in contact[1]]
+        cleaned_nums = [[char for char in number if char.isdigit()][:8] + ["X", "X"] for number in numbers]
+        yield contact[0], ["".join(number) for number in cleaned_nums]
+      
+
   def ListAllContacts(self):
     """Retrieves a list of contacts and displays name and primary email."""
     feed = self.gd_client.GetContacts()
-    self.contacts= self.GetContactsInfo(feed)
-    return self.contacts   
+    self.contacts = self.CleanPhoneNumbers(self.GetContactsInfo(feed))
+    return self.contacts
 
   def Run(self):
     """Prompts the user to choose funtionality to be demonstrated."""
     return self.ListAllContacts()
 
-def main():
+def get_contacts():
   """Demonstrates use of the Contacts extension using the ContactsSample object."""
   # Parse command line options
   try:
@@ -102,10 +117,44 @@ def main():
     contacts = GoogleContacts(user, pw)
   except gdata.client.BadAuthentication:
     print 'Invalid user credentials given.'
-    return
+    exit(1)
 
   contacts_list = contacts.Run()
   return contacts_list
 
+def search_db(contacts):
+  comprimised = []
+  db = MySQLdb.connect(host="localhost", # your host, usually localhost
+                       user="snap", # your username
+                       passwd="", # your password
+                       db="snapchat") # name of the data base
+  cursor = db.cursor()
+  for contact in contacts:
+    name = contact[0]
+    if name in comprimised:
+      continue
+    for number in contact[1]:
+
+      # cursor.execute("""SELECT * from records"""
+      db.query("""SELECT * from records where phone='%s';""" % number)
+      matches = db.store_result()
+      match = matches.fetch_row()
+      if match:
+        comprimised.append(name.strip(' '))
+        print "----------------"
+      while match:
+        print "Match Found for %s: Phone Number: %s username: %s" % (name, number, match[0][1])
+        match = matches.fetch_row()
+  print "The following contacts may have been comprimised by the leak:" 
+  for name in comprimised: print name
+  print "Total: %s" % len(comprimised)
+
+def main():
+  contacts = get_contacts()
+  search_db(contacts)
+
+
 if __name__ == '__main__':
   main()
+  
+
