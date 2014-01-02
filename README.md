@@ -13,7 +13,7 @@ Configuration
 Aside from entering your google username and password, the only this needs configuration is for the mysql connection, on line 123 of contacts.py you should replace the
 arguments to ```MySQLdb.connect``` with the appropriate values
 
-Dependancies
+Dependencies
 ==============
 
 mysql-server
