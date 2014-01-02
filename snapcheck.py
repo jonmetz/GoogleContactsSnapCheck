@@ -91,29 +91,28 @@ def get_contacts():
   """Demonstrates use of the Contacts extension using the ContactsSample object."""
   # Parse command line options
   try:
-    opts, args = getopt.getopt(sys.argv[1:], '', ['user=', 'pw='])
+    opts, args = getopt.getopt(sys.argv[1:], '', ['user=', 'password='])
   except getopt.error, msg:
-    print 'python contacts_example.py --user [username] --pw [password]'
+    print 'python contacts_example.py --user [username] --password [password]'
     sys.exit(2)
-
   user = ''
-  pw = ''
+  password = ''
   # Process options
   for option, arg in opts:
     if option == '--user':
       user = arg
-    elif option == '--pw':
-      pw = arg
+    elif option == '--password':
+      password = arg
 
   while not user:
     print 'NOTE: Please run these tests only with a test account.'
     user = raw_input('Please enter your username: ')
-  while not pw:
-    pw = getpass.getpass()
-    if not pw:
+  while not password:
+    password = getpass.getpass()
+    if not password:
       print 'Password cannot be blank.'
   try:
-    contacts = GoogleContacts(user, pw)
+    contacts = GoogleContacts(user, password)
   except gdata.client.BadAuthentication:
     print 'Invalid user credentials given.'
     exit(1)

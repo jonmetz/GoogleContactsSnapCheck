@@ -25,3 +25,12 @@ python-pip
 Once these packages are installed, run ```pip install -r requirements.txt``` to install the rest of the dependancies (note that this may require sudo).
 
 
+Usage
+==============
+
+```python snapcheck.py --user username@gmail.com --password password```
+
+Acknowlegements
+================
+
+This script recycled a large part of Google's contacts API example.
