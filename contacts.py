@@ -23,10 +23,10 @@ import gdata.contacts.client
 import MySQLdb
 
 class GoogleContacts(object):
-  """ContactsSample object demonstrates operations with the Contacts feed."""
+
 
   def __init__(self, email, password):
-    """Constructor for the ContactsSample object.
+    """Constructor for the GoogleContacts object.
     
     Takes an email and password corresponding to a gmail account to
     demonstrate the functionality of the Contacts feed.
